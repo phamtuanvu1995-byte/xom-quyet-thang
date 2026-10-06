@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cổng thông tin điện tử Xóm Quyết Thắng - Xã Phú Lạc - Đại Từ - Thái Nguyên</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#990000', // Đỏ đô truyền thống cờ Đảng
+                        primaryDark: '#7a0000',
+                        accent: '#FFD700', // Vàng ngôi sao
+                        darkBg: '#1e1e2f',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .banner-bg {
+            background: linear-gradient(135deg, rgba(153, 0, 0, 0.92), rgba(122, 0, 0, 0.88)), url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80');
+            background-blend-mode: overlay;
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased flex flex-col min-h-screen">
+
+    <!-- Top Header Bar -->
+    <header class="bg-primary text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-3 mb-2 md:mb-0">
+                <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center text-primary font-bold text-2xl shadow">
+                    <i class="fa-solid fa-star text-yellow-600"></i>
+                </div>
+                <div>
+                    <h1 class="text-xs uppercase tracking-wider text-accent font-semibold">UBND XÃ PHÚ LẠC - HUYỆN ĐẠI TỪ - TỈNH THÁI NGUYÊN</h1>
+                    <span class="text-lg md:text-xl font-bold uppercase">Cổng thông tin điện tử Xóm Quyết Thắng</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="text-right hidden lg:block text-xs">
+                    <p id="current-date" class="font-medium text-accent"></p>
+                    <p class="text-gray-200">Hệ thống thông tin trực tuyến</p>
+                </div>
+                <button onclick="openAdminModal()" class="bg-accent hover:bg-yellow-400 text-primary font-semibold px-4 py-2 rounded-lg shadow transition flex items-center space-x-2 text-sm">
+                    <i class="fa-solid fa-user-shield"></i>
+                    <span>Quản trị (Admin)</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav class="bg-primaryDark text-white sticky top-0 z-40 shadow-lg border-t border-red-800">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <div class="hidden md:flex space-x-1">
+                <a href="#trang-chu" class="px-4 py-3 hover:bg-primary transition font-medium flex items-center space-x-2"><i class="fa-solid fa-house"></i><span>Trang chủ</span></a>
+                <a href="#gioi-thieu" class="px-4 py-3 hover:bg-primary transition font-medium flex items-center space-x-2"><i class="fa-solid fa-landmark"></i><span>Giới thiệu</span></a>
+                <a href="#ban-quan-ly" class="px-4 py-3 hover:bg-primary transition font-medium flex items-center space-x-2"><i class="fa-solid fa-users-gear"></i><span>Ban quản lý</span></a>
+                <a href="#tin-tuc" class="px-4 py-3 hover:bg-primary transition font-medium flex items-center space-x-2"><i class="fa-solid fa-newspaper"></i><span>Tin tức</span></a>
+                <a href="#thu-chi" class="px-4 py-3 hover:bg-primary transition font-medium flex items-center space-x-2"><i class="fa-solid fa-scale-balanced"></i><span>Thu chi quỹ xóm</span></a>
+                <a href="#tra-cuu" class="px-4 py-3 hover:bg-primary transition font-medium flex items-center space-x-2"><i class="fa-solid fa-search"></i><span>Tra cứu hộ khẩu</span></a>
+                <a href="#phan-anh" class="px-4 py-3 hover:bg-primary transition font-medium flex items-center space-x-2"><i class="fa-solid fa-comments"></i><span>Phản ánh</span></a>
+                <a href="#lien-he" class="px-4 py-3 hover:bg-primary transition font-medium flex items-center space-x-2"><i class="fa-solid fa-map-location-dot"></i><span>Bản đồ GPS</span></a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden py-3 flex justify-between w-full items-center">
+                <span class="font-bold text-accent">Menu Điều Hướng</span>
+                <button id="menu-btn" class="text-white focus:outline-none"><i class="fa-solid fa-bars text-xl"></i></button>
+            </div>
+        </div>
+        <!-- Mobile Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-primaryDark border-t border-red-900 px-4 pt-2 pb-4 space-y-2">
+            <a href="#trang-chu" class="block py-2 hover:bg-primary px-2 rounded">Trang chủ</a>
+            <a href="#gioi-thieu" class="block py-2 hover:bg-primary px-2 rounded">Giới thiệu & Lịch sử sáp nhập</a>
+            <a href="#ban-quan-ly" class="block py-2 hover:bg-primary px-2 rounded">Ban quản lý</a>
+            <a href="#tin-tuc" class="block py-2 hover:bg-primary px-2 rounded">Tin tức & Thông báo</a>
+            <a href="#thu-chi" class="block py-2 hover:bg-primary px-2 rounded">Công khai thu chi</a>
+            <a href="#tra-cuu" class="block py-2 hover:bg-primary px-2 rounded">Tra cứu hộ khẩu</a>
+            <a href="#phan-anh" class="block py-2 hover:bg-primary px-2 rounded">Phản ánh kiến nghị</a>
+            <a href="#lien-he" class="block py-2 hover:bg-primary px-2 rounded">Bản đồ GPS Google Maps</a>
+        </div>
+    </nav>
+
+    <!-- Hero Banner -->
+    <section id="trang-chu" class="banner-bg text-white py-16 px-4 text-center relative shadow-inner">
+        <div class="max-w-4xl mx-auto">
+            <span class="bg-accent text-primary text-xs font-bold uppercase px-3 py-1 rounded-full shadow-md inline-block mb-4">Đi vào hoạt động chính thức từ 01/07/2026</span>
+            <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 uppercase drop-shadow-md">Xóm Quyết Thắng - Xã Phú Lạc</h2>
+            <p class="text-lg md:text-xl text-gray-100 italic mb-8 font-light">"Đoàn Kết - Dân Chủ - Kỷ Cương - Đổi Mới - Phát Triển"</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#gioi-thieu" class="bg-white text-primary font-bold px-6 py-3 rounded-lg shadow hover:bg-gray-100 transition">Tìm hiểu về xóm</a>
+                <a href="https://www.google.com/maps/place/X%C3%B3m+L%C5%A9ng+1+X%C3%A3+Ph%C3%BA+L%E1%BA%A1c+t%E1%BB%89nh+Th%C3%A1i+Nguy%C3%AAn/@21.6994864,105.6329508,17z" target="_blank" class="bg-accent text-primary font-bold px-6 py-3 rounded-lg shadow hover:bg-yellow-400 transition flex items-center space-x-2">
+                    <i class="fa-solid fa-location-arrow"></i>
+                    <span>Chỉ đường Google Maps</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Thống kê tổng quan -->
+    <section class="max-w-7xl mx-auto px-4 -mt-10 relative z-10 mb-12">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white rounded-xl shadow-xl p-6 border-t-4 border-primary flex items-center space-x-4">
+                <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center text-primary text-2xl">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <div>
+                    <p class="text-gray-500 text-sm font-medium">Tổng nhân khẩu</p>
+                    <h3 class="text-3xl font-extrabold text-gray-800">1.376</h3>
+                    <span class="text-xs text-green-600 font-semibold"><i class="fa-solid fa-arrow-up"></i> Nhân dân đoàn kết</span>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-xl p-6 border-t-4 border-yellow-500 flex items-center space-x-4">
+                <div class="w-14 h-14 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 text-2xl">
+                    <i class="fa-solid fa-house-chimney"></i>
+                </div>
+                <div>
+                    <p class="text-gray-500 text-sm font-medium">Số hộ gia đình</p>
+                    <h3 class="text-3xl font-extrabold text-gray-800">337</h3>
+                    <span class="text-xs text-blue-600 font-semibold">Hộ chính thức toàn xóm</span>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-xl p-6 border-t-4 border-primary flex items-center space-x-4">
+                <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center text-primary text-2xl">
+                    <i class="fa-solid fa-code-merge"></i>
+                </div>
+                <div>
+                    <p class="text-gray-500 text-sm font-medium">Sáp nhập từ 3 xóm</p>
+                    <h3 class="text-xl font-extrabold text-gray-800">Đại Hà, Lũng 1, 2</h3>
+                    <span class="text-xs text-gray-500 font-semibold">Thành lập 01/07/2026</span>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-xl p-6 border-t-4 border-green-600 flex items-center space-x-4">
+                <div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center text-green-600 text-2xl">
+                    <i class="fa-solid fa-map"></i>
+                </div>
+                <div>
+                    <p class="text-gray-500 text-sm font-medium">Địa bàn hành chính</p>
+                    <h3 class="text-xl font-extrabold text-gray-800">Xã Phú Lạc</h3>
+                    <span class="text-xs text-green-600 font-semibold">Huyện Đại Từ, Thái Nguyên</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Giới thiệu & Lịch sử hình thành -->
+    <section id="gioi-thieu" class="max-w-7xl mx-auto px-4 py-8 mb-12">
+        <div class="bg-white rounded-2xl shadow-md p-8 border border-gray-100">
+            <div class="flex items-center space-x-3 mb-6 border-b pb-4">
+                <i class="fa-solid fa-landmark text-primary text-2xl"></i>
+                <h2 class="text-2xl font-bold text-gray-800 uppercase">Giới thiệu & Lịch sử hình thành Xóm Quyết Thắng</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                <div class="md:col-span-2 space-y-4 text-gray-700 leading-relaxed">
+                    <p>
+                        <strong>Xóm Quyết Thắng</strong> trực thuộc xã Phú Lạc, huyện Đại Từ, tỉnh Thái Nguyên. Xóm chính thức đi vào hoạt động từ ngày <span class="text-primary font-bold">01/07/2026</span> trên cơ sở sáp nhập từ 3 xóm cũ giàu truyền thống:
+                    </p>
+                    <div class="grid grid-cols-3 gap-3 my-4">
+                        <div class="bg-red-50 p-3 rounded-lg border border-red-200 text-center font-bold text-primary">Xóm Đại Hà</div>
+                        <div class="bg-red-50 p-3 rounded-lg border border-red-200 text-center font-bold text-primary">Xóm Lũng 1</div>
+                        <div class="bg-red-50 p-3 rounded-lg border border-red-200 text-center font-bold text-primary">Xóm Lũng 2</div>
+                    </div>
+                    <p>
+                        Với tổng quy mô <span class="font-bold text-gray-900">337 hộ dân</span> và <span class="font-bold text-gray-900">1.376 nhân khẩu</span>, việc sáp nhập tạo động lực mạnh mẽ thúc đẩy kinh tế - xã hội, xây dựng nông thôn mới kiểu mẫu tại địa phương.
+                    </p>
+                </div>
+                <div class="bg-red-50 p-6 rounded-xl border border-red-200 text-center space-y-3">
+                    <div class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center mx-auto text-3xl shadow">
+                        <i class="fa-solid fa-flag"></i>
+                    </div>
+                    <h3 class="font-bold text-primary text-lg">Khẩu hiệu hành động</h3>
+                    <p class="italic text-gray-700 font-medium">"Đoàn Kết - Dân Chủ - Kỷ Cương - Đổi Mới - Phát Triển"</p>
+                    <div class="text-xs text-gray-500 pt-2 border-t border-red-200">Ban Quản Lý Xóm Quyết Thắng</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sơ đồ bộ máy quản lý chủ chốt (Nhúng chính xác banner gốc) -->
+    <section id="ban-quan-ly" class="bg-gray-100 py-12 mb-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-8">
+                <span class="text-primary font-bold uppercase tracking-wider text-sm">Hệ thống chính trị cơ sở</span>
+                <h2 class="text-3xl font-extrabold text-gray-800 mt-1">Các Chức Danh Chủ Chốt Xóm Quyết Thắng</h2>
+                <div class="w-32 h-1 bg-primary mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <!-- Official Banner Container -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-red-200 max-w-5xl mx-auto p-4 md:p-6 mb-8">
+                <div class="text-center mb-4">
+                    <span class="inline-block bg-red-100 text-primary px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest border border-red-300">
+                        <i class="fa-solid fa-image mr-1"></i> Bảng Vàng Cán Bộ Chủ Chốt (Banner Chính Thức)
+                    </span>
+                </div>
+                <!-- Embedded Exact Banner Image Provided -->
+                <div class="rounded-xl overflow-hidden shadow-md bg-gray-50 flex justify-center items-center">
+                    <img src="image_4e3138.png" alt="Xóm Quyết Thắng - Các chức danh chủ chốt" class="w-full h-auto object-contain max-h-[600px] rounded-lg" onerror="this.src='https://placehold.co/1200x600/990000/ffffff?text=X%C3%B3m+Quy%E1%BA%BFt+Th%E1%BA%AFng+-+C%C3%A1c+Ch%E1%BB%A9c+Danh+Ch%E1%BB%A7+Ch%E1%BB%A1t'">
+                </div>
+            </div>
+
+            <!-- Detailed Cards for Accessibility -->
+            <div id="bql-container" class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Tin tức & Thông báo -->
+    <section id="tin-tuc" class="max-w-7xl mx-auto px-4 py-8 mb-12">
+        <div class="flex justify-between items-center mb-8 border-b pb-4">
+            <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-newspaper text-primary text-2xl"></i>
+                <h2 class="text-2xl font-bold text-gray-800 uppercase">Tin tức & Thông báo hoạt động</h2>
+            </div>
+            <span class="text-sm text-gray-500 font-medium">Cập nhật liên tục từ Ban quản lý xóm</span>
+        </div>
+        <div id="news-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Rendered by JS -->
+        </div>
+    </section>
+
+    <!-- Công khai thu chi quỹ xóm -->
+    <section id="thu-chi" class="bg-red-50 py-12 mb-12 border-y border-red-100">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                <div>
+                    <span class="text-primary font-bold uppercase tracking-wider text-sm">Minh bạch tài chính</span>
+                    <h2 class="text-3xl font-extrabold text-gray-800 mt-1">Công Khai Thu Chi Quỹ Xóm Quyết Thắng</h2>
+                </div>
+                <div class="bg-white px-4 py-2 rounded-lg shadow text-sm font-semibold text-primary border border-red-200">
+                    <i class="fa-solid fa-wallet mr-2"></i> Số dư quỹ hiện tại: <span id="tong-quy">0 VNĐ</span>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-primary text-white text-sm uppercase">
+                            <th class="p-4">Ngày giao dịch</th>
+                            <th class="p-4">Nội dung thu / chi</th>
+                            <th class="p-4">Loại</th>
+                            <th class="p-4 text-right">Số tiền (VNĐ)</th>
+                            <th class="p-4">Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody id="finance-table" class="divide-y divide-gray-200 text-sm">
+                        <!-- Rendered by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tra cứu Hộ khẩu & Nhân khẩu -->
+    <section id="tra-cuu" class="max-w-7xl mx-auto px-4 py-8 mb-12">
+        <div class="bg-white rounded-2xl shadow-md p-8 border border-gray-100">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 border-b pb-4 gap-4">
+                <div class="flex items-center space-x-3">
+                    <i class="fa-solid fa-address-book text-primary text-2xl"></i>
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800 uppercase">Tra cứu Danh sách Hộ Khẩu</h2>
+                        <p class="text-xs text-gray-500">Tổng số: 337 hộ / 1.376 nhân khẩu toàn xóm</p>
+                    </div>
+                </div>
+                <div class="w-full md:w-72 relative">
+                    <input type="text" id="search-ho" placeholder="Tìm tên chủ hộ hoặc số nhà..." class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:border-primary text-sm">
+                    <i class="fa-solid fa-search absolute left-3 top-3 text-gray-400"></i>
+                </div>
+            </div>
+            <div class="overflow-x-auto max-h-96 overflow-y-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead class="sticky top-0 bg-gray-100 text-gray-700 text-sm uppercase">
+                        <tr>
+                            <th class="p-3">STT</th>
+                            <th class="p-3">Họ tên chủ hộ</th>
+                            <th class="p-3">Số nhân khẩu</th>
+                            <th class="p-3">Xóm cũ</th>
+                            <th class="p-3">Số điện thoại</th>
+                            <th class="p-3 text-center">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="household-table" class="divide-y divide-gray-200 text-sm">
+                        <!-- Rendered by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gửi ý kiến phản ánh, kiến nghị -->
+    <section id="phan-anh" class="bg-gray-100 py-12 mb-12">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-200">
+                <div class="text-center mb-8">
+                    <i class="fa-solid fa-comments text-primary text-4xl mb-2"></i>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-800">Góp Ý & Phản Ánh Kiến Nghị</h2>
+                    <p class="text-gray-600 text-sm mt-1">Mọi ý kiến đóng góp của nhân dân sẽ được Ban quản lý xóm Quyết Thắng tiếp nhận và giải quyết.</p>
+                </div>
+                <form id="feedback-form" onsubmit="submitFeedback(event)" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Họ và tên *</label>
+                            <input type="text" id="fb-name" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-primary text-sm" placeholder="Nhập họ và tên...">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Số điện thoại *</label>
+                            <input type="tel" id="fb-phone" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-primary text-sm" placeholder="Nhập số điện thoại...">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nội dung phản ánh / kiến nghị *</label>
+                        <textarea id="fb-content" rows="4" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-primary text-sm" placeholder="Nhập nội dung góp ý về an ninh trật tự, vệ sinh môi trường, xây dựng nông thôn mới..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-primary hover:bg-primaryDark text-white font-bold py-3 rounded-lg shadow transition flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Gửi Ý Kiến Phản Ánh</span>
+                    </button>
+                </form>
+                <div class="mt-8 border-t pt-6">
+                    <h3 class="font-bold text-gray-800 mb-4 text-sm uppercase">Ý kiến đóng góp gần đây từ nhân dân:</h3>
+                    <div id="feedback-list" class="space-y-3 max-h-60 overflow-y-auto">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tích hợp GPS Google Map & Địa chỉ Liên hệ -->
+    <section id="lien-he" class="max-w-7xl mx-auto px-4 py-8 mb-12">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-white p-6 md:p-8 rounded-2xl shadow-md border border-gray-100">
+            <div class="space-y-6">
+                <div class="flex items-center space-x-3 border-b pb-4">
+                    <i class="fa-solid fa-map-location-dot text-primary text-2xl"></i>
+                    <h2 class="text-2xl font-bold text-gray-800 uppercase">Định Vị GPS & Chỉ Đường Google Maps</h2>
+                </div>
+                <p class="text-gray-700 leading-relaxed">
+                    Xóm Quyết Thắng (bao gồm khu vực Xóm Lũng 1 cũ) thuộc xã Phú Lạc, huyện Đại Từ, tỉnh Thái Nguyên. Bạn có thể sử dụng định vị GPS trực tiếp trên bản đồ hoặc bấm nút dưới đây để mở ứng dụng Google Maps tìm đường nhanh nhất.
+                </p>
+                <div class="space-y-3 text-sm text-gray-800 font-medium">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 rounded-full bg-red-100 text-primary flex items-center justify-center"><i class="fa-solid fa-location-dot"></i></div>
+                        <span>Địa bàn: Xóm Quyết Thắng (Khu vực Lũng 1), Xã Phú Lạc, Huyện Đại Từ, Tỉnh Thái Nguyên</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 rounded-full bg-red-100 text-primary flex items-center justify-center"><i class="fa-solid fa-phone"></i></div>
+                        <span>Trưởng xóm (Đ/c Nguyễn Minh Sang): 0973.853.697</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 rounded-full bg-red-100 text-primary flex items-center justify-center"><i class="fa-solid fa-envelope"></i></div>
+                        <span>Email: xomquyethangphulac@daitu.thainguyen.gov.vn</span>
+                    </div>
+                </div>
+                <div class="pt-2">
+                    <a href="https://www.google.com/maps/place/X%C3%B3m+L%C5%A9ng+1+X%C3%A3+Ph%C3%BA+L%E1%BA%A1c+t%E1%BB%89nh+Th%C3%A1i+Nguy%C3%AAn/@21.6994864,105.6329508,17z" target="_blank" class="inline-flex items-center space-x-3 bg-primary hover:bg-primaryDark text-white font-bold px-6 py-3 rounded-lg shadow-lg transition">
+                        <i class="fa-solid fa-diamond-turn-right text-accent text-lg"></i>
+                        <span>Mở Dẫn Đường GPS Trên Google Maps</span>
+                    </a>
+                </div>
+            </div>
+            <!-- Google Maps Iframe exact location Xom Lung 1, Phu Lac -->
+            <div class="rounded-xl overflow-hidden shadow-xl border h-80 lg:h-96">
+                <iframe class="w-full h-full border-0" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3714.2!2d105.6355257!3d21.6994814!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3134d100492c48f5%3A0x55c5a9918c298a2!2zWMOzZyBMxrVuZyAxLCBjw7ogxJHhuqFpIFThuqIsIFRowaWkgTmd1ecWqbiwgVmlldG5hbQ!5e0!3m2!1svi!2svn!4v1710000000000!5m2!1svi!2svn">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-darkBg text-gray-300 mt-auto py-10 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <div>
+                <h3 class="text-white font-bold text-lg mb-3 uppercase tracking-wider">Cổng Thông Tin Xóm Quyết Thắng</h3>
+                <p class="text-sm text-gray-400 leading-relaxed">
+                    Trang thông tin điện tử chính thức của Xóm Quyết Thắng, xã Phú Lạc, huyện Đại Từ, tỉnh Thái Nguyên. Thành lập từ ngày 01/07/2026 trên cơ sở sáp nhập Đại Hà, Lũng 1 và Lũng 2.
+                </p>
+            </div>
+            <div>
+                <h3 class="text-white font-bold text-lg mb-3 uppercase tracking-wider">Liên kết nhanh</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#trang-chu" class="hover:text-accent transition">Trang chủ</a></li>
+                    <li><a href="#gioi-thieu" class="hover:text-accent transition">Lịch sử sáp nhập</a></li>
+                    <li><a href="#ban-quan-ly" class="hover:text-accent transition">Ban quản lý xóm</a></li>
+                    <li><a href="#thu-chi" class="hover:text-accent transition">Công khai thu chi quỹ xóm</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-white font-bold text-lg mb-3 uppercase tracking-wider">Bản quyền & Vận hành</h3>
+                <p class="text-sm text-gray-400">
+                    Bản quyền thuộc về Ban quản lý Xóm Quyết Thắng.<br>
+                    Hotline hỗ trợ: <span class="text-accent font-semibold">0973.853.697</span>
+                </p>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 pt-6 text-center text-xs text-gray-500">
+            <p>&copy; 2026 Cổng thông tin điện tử Xóm Quyết Thắng - Xã Phú Lạc, Huyện Đại Từ, Tỉnh Thái Nguyên.</p>
+        </div>
+    </footer>
+
+    <!-- Admin Login Modal -->
+    <div id="admin-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 relative">
+            <button onclick="closeAdminModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-red-100 text-primary rounded-full flex items-center justify-center mx-auto text-2xl mb-2">
+                    <i class="fa-solid fa-user-lock"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800">Đăng Nhập Quản Trị</h3>
+                <p class="text-xs text-gray-500">Dành cho Ban quản lý xóm Quyết Thắng</p>
+            </div>
+            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Tài khoản</label>
+                    <input type="text" id="admin-user" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-primary text-sm" placeholder="admin">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
+                    <input type="password" id="admin-pass" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-primary text-sm" placeholder="123456">
+                </div>
+                <button type="submit" class="w-full bg-primary hover:bg-primaryDark text-white font-bold py-3 rounded-lg shadow transition">
+                    Đăng Nhập Hệ Thống
+                </button>
+            </form>
+            <div class="mt-4 text-center text-xs text-gray-500">
+                Tài khoản mặc định: <span class="font-bold text-gray-700">admin</span> / <span class="font-bold text-gray-700">123456</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard Modal -->
+    <div id="dashboard-modal" class="fixed inset-0 bg-gray-900 z-50 hidden flex flex-col">
+        <!-- Header Dashboard -->
+        <div class="bg-primary text-white p-4 flex justify-between items-center shadow-md">
+            <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-gauge-high text-accent text-2xl"></i>
+                <h2 class="text-xl font-bold">HỆ THỐNG QUẢN TRỊ ADMIN - XÓM QUYẾT THẮNG</h2>
+            </div>
+            <button onclick="closeDashboard()" class="bg-red-800 hover:bg-red-900 px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center space-x-2">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Thoát Quản Trị</span>
+            </button>
+        </div>
+        <!-- Dashboard Body -->
+        <div class="flex-1 flex flex-col md:flex-row overflow-hidden">
+            <!-- Sidebar Tabs -->
+            <div class="w-full md:w-64 bg-darkBg text-gray-300 p-4 space-y-2 flex-shrink-0">
+                <button onclick="switchTab('ho-khau')" id="tab-btn-ho-khau" class="w-full text-left px-4 py-3 rounded-lg bg-primary text-white font-semibold transition flex items-center space-x-3">
+                    <i class="fa-solid fa-address-book"></i>
+                    <span>Quản lý Hộ khẩu</span>
+                </button>
+                <button onclick="switchTab('tin-tuc')" id="tab-btn-tin-tuc" class="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-800 transition flex items-center space-x-3">
+                    <i class="fa-solid fa-newspaper"></i>
+                    <span>Quản lý Tin tức</span>
+                </button>
+                <button onclick="switchTab('thu-chi')" id="tab-btn-thu-chi" class="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-800 transition flex items-center space-x-3">
+                    <i class="fa-solid fa-wallet"></i>
+                    <span>Quản lý Thu Chi</span>
+                </button>
+                <button onclick="switchTab('phan-anh')" id="tab-btn-phan-anh" class="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-800 transition flex items-center space-x-3">
+                    <i class="fa-solid fa-comments"></i>
+                    <span>Duyệt Phản Ánh</span>
+                </button>
+            </div>
+            <!-- Main Content Area -->
+            <div class="flex-1 bg-gray-50 p-6 overflow-y-auto">
+                <!-- Tab Hộ Khẩu -->
+                <div id="tab-ho-khau" class="dashboard-tab space-y-6">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xl font-bold text-gray-800">Quản lý Hộ khẩu & Nhân khẩu (337 hộ / 1.376 nhân khẩu)</h3>
+                        <button onclick="openAddHouseholdModal()" class="bg-primary hover:bg-primaryDark text-white px-4 py-2 rounded-lg text-sm font-semibold shadow flex items-center space-x-2">
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Thêm Hộ Khẩu</span>
+                        </button>
+                    </div>
+                    <div class="bg-white rounded-xl shadow overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-100 text-gray-700 text-sm uppercase">
+                                    <th class="p-3">Chủ hộ</th>
+                                    <th class="p-3">Nhân khẩu</th>
+                                    <th class="p-3">Xóm cũ</th>
+                                    <th class="p-3">Điện thoại</th>
+                                    <th class="p-3 text-center">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-household-table" class="divide-y divide-gray-200 text-sm">
+                                <!-- Rendered by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab Tin Tức -->
+                <div id="tab-tin-tuc" class="dashboard-tab space-y-6 hidden">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xl font-bold text-gray-800">Quản lý Tin tức & Thông báo</h3>
+                        <button onclick="openAddNewsModal()" class="bg-primary hover:bg-primaryDark text-white px-4 py-2 rounded-lg text-sm font-semibold shadow flex items-center space-x-2">
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Đăng Tin Mới</span>
+                        </button>
+                    </div>
+                    <div id="admin-news-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- Tab Thu Chi -->
+                <div id="tab-thu-chi" class="dashboard-tab space-y-6 hidden">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xl font-bold text-gray-800">Quản lý Thu Chi Quỹ Xóm</h3>
+                        <button onclick="openAddFinanceModal()" class="bg-primary hover:bg-primaryDark text-white px-4 py-2 rounded-lg text-sm font-semibold shadow flex items-center space-x-2">
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Thêm Giao Dịch</span>
+                        </button>
+                    </div>
+                    <div class="bg-white rounded-xl shadow overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-100 text-gray-700 text-sm uppercase">
+                                    <th class="p-3">Ngày</th>
+                                    <th class="p-3">Nội dung</th>
+                                    <th class="p-3">Loại</th>
+                                    <th class="p-3 text-right">Số tiền</th>
+                                    <th class="p-3 text-center">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-finance-table" class="divide-y divide-gray-200 text-sm">
+                                <!-- Rendered by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab Phản Ánh -->
+                <div id="tab-phan-anh" class="dashboard-tab space-y-6 hidden">
+                    <h3 class="text-xl font-bold text-gray-800">Duyệt Ý Kiến Phản Ánh Của Nhân Dân</h3>
+                    <div id="admin-feedback-list" class="space-y-4">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application JavaScript Logic -->
+    <script>
+        // Set Current Date in Header
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date').innerText = new Date().toLocaleDateString('vi-VN', options);
+
+        // Mobile menu toggle
+        document.getElementById('menu-btn').addEventListener('click', () => {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // App Data Store (BQL, News, Finance, Households, Feedbacks)
+        const appData = {
+            bql: [
+                { name: "Đồng chí Lưu Chí Công", role: "Bí thư Chi bộ", phone: "0978.043.555" },
+                { name: "Đồng chí Nguyễn Minh Sang", role: "Phó Bí thư Chi bộ - Trưởng Xóm", phone: "0973.853.697" },
+                { name: "Đồng chí Phạm Tuấn Vũ", role: "Chi Ủy Viên - Trưởng Ban CTMT - BT Đoàn Thanh Niên", phone: "0352.879.993" }
+            ],
+            news: [
+                { id: 1, title: "Xóm Quyết Thắng chính thức đi vào hoạt động từ 01/07/2026", date: "01/07/2026", desc: "Thành lập trên cơ sở sáp nhập 3 xóm Đại Hà, Lũng 1 và Lũng 2 theo Nghị quyết của UBND xã Phú Lạc.", img: "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=600&q=80" },
+                { id: 2, title: "Họp toàn thể nhân dân triển khai xây dựng nông thôn mới kiểu mẫu", date: "03/07/2026", desc: "Ban quản lý xóm phát động phong trào hiến đất làm đường giao thông và chỉnh trang nhà văn hóa thôn.", img: "https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=600&q=80" },
+                { id: 3, title: "Thông báo lịch chi trả chế độ trợ cấp xã hội tháng 07/2026", date: "05/07/2026", desc: "Đề nghị các hộ gia đình thuộc diện chính sách có mặt tại nhà văn hóa xóm để nhận chế độ đúng giờ.", img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" }
+            ],
+            finance: [
+                { date: "02/07/2026", content: "Ủng hộ quỹ xây dựng nhà văn hóa xóm", type: "Thu", amount: 15000000, note: "Tập thể nhân dân đóng góp" },
+                { date: "04/07/2026", content: "Chi mua sắm trang thiết bị khánh thành", type: "Chi", amount: 4500000, note: "Loa đài, băng rôn, khánh tiết" },
+                { date: "06/07/2026", content: "Đóng góp quỹ khuyến học xóm quý III/2026", type: "Thu", amount: 8000000, note: "Các hộ gia đình ủng hộ" }
+            ],
+            households: [
+                { id: 1, name: "Nguyễn Văn Hùng", members: 5, oldVillage: "Xóm Đại Hà", phone: "0912345678" },
+                { id: 2, name: "Trần Văn Bình", members: 4, oldVillage: "Xóm Lũng 1", phone: "0987654321" },
+                { id: 3, name: "Lê Thị Hoa", members: 3, oldVillage: "Xóm Lũng 2", phone: "0905123456" },
+                { id: 4, name: "Hoàng Văn Tuấn", members: 6, oldVillage: "Xóm Đại Hà", phone: "0934567890" },
+                { id: 5, name: "Đinh Văn Mạnh", members: 4, oldVillage: "Xóm Lũng 1", phone: "0971122334" }
+            ],
+            feedbacks: [
+                { name: "Nguyễn Văn Nam", phone: "098...123", content: "Đề nghị xóm tổ chức phát quang bụi rậm tuyến đường nhánh xóm Đại Hà để đảm bảo an toàn giao thông.", date: "04/07/2026" },
+                { name: "Lê Thị Mai", phone: "091...456", content: "Hoan hô xóm mới Quyết Thắng đi vào hoạt động rất khang trang, nhân dân rất phấn khởi.", date: "02/07/2026" }
+            ]
+        };
+
+        // Render All Components
+        function renderAll() {
+            renderBQL();
+            renderNews();
+            renderFinance();
+            renderHouseholds();
+            renderFeedbacks();
+        }
+
+        function renderBQL() {
+            const container = document.getElementById('bql-container');
+            container.innerHTML = appData.bql.map(item => `
+                <div class="bg-white rounded-xl shadow-md p-6 text-center border border-gray-200 hover:shadow-lg transition">
+                    <div class="w-16 h-16 bg-red-100 text-primary rounded-full flex items-center justify-center mx-auto text-2xl mb-3 shadow">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800">${item.name}</h3>
+                    <p class="text-primary font-semibold text-sm mt-1 mb-3">${item.role}</p>
+                    <div class="inline-flex items-center space-x-2 bg-red-50 text-primary px-3 py-1 rounded-full text-sm font-bold">
+                        <i class="fa-solid fa-phone"></i>
+                        <span>${item.phone}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderNews() {
+            const container = document.getElementById('news-container');
+            container.innerHTML = appData.news.map(item => `
+                <div class="bg-white rounded-xl shadow overflow-hidden border border-gray-100 flex flex-col">
+                    <div class="h-48 overflow-hidden">
+                        <img src="${item.img}" alt="news" class="w-full h-full object-cover hover:scale-105 transition duration-300">
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs text-primary font-semibold"><i class="fa-regular fa-calendar mr-1"></i> ${item.date}</span>
+                            <h3 class="font-bold text-gray-800 text-lg mt-1 mb-2">${item.title}</h3>
+                            <p class="text-gray-600 text-sm">${item.desc}</p>
+                        </div>
+                        <button class="mt-4 text-primary font-semibold text-sm hover:underline flex items-center space-x-1">
+                            <span>Xem chi tiết</span>
+                            <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            const adminNews = document.getElementById('admin-news-list');
+            if(adminNews) {
+                adminNews.innerHTML = appData.news.map(item => `
+                    <div class="bg-white p-4 rounded-xl shadow border flex justify-between items-center">
+                        <div>
+                            <span class="text-xs text-gray-500">${item.date}</span>
+                            <h4 class="font-bold text-gray-800">${item.title}</h4>
+                        </div>
+                        <button onclick="deleteNews(${item.id})" class="text-red-600 hover:text-red-800 p-2"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function renderFinance() {
+            let total = 48500000;
+            appData.finance.forEach(f => {
+                if(f.type === 'Thu') total += f.amount;
+                else total -= f.amount;
+            });
+            document.getElementById('tong-quy').innerText = total.toLocaleString('vi-VN') + ' VNĐ';
+
+            const tbody = document.getElementById('finance-table');
+            tbody.innerHTML = appData.finance.map(f => `
+                <tr class="hover:bg-gray-50">
+                    <td class="p-4 font-medium">${f.date}</td>
+                    <td class="p-4">${f.content}</td>
+                    <td class="p-4"><span class="px-2 py-1 rounded text-xs font-bold ${f.type==='Thu'?'bg-green-100 text-green-700':'bg-red-100 text-red-700'}">${f.type}</span></td>
+                    <td class="p-4 text-right font-bold ${f.type==='Thu'?'text-green-600':'text-red-600'}">${f.type==='Thu'?'+':'-'} ${f.amount.toLocaleString('vi-VN')} VNĐ</td>
+                    <td class="p-4 text-gray-500">${f.note}</td>
+                </tr>
+            `).join('');
+
+            const adminTbody = document.getElementById('admin-finance-table');
+            if(adminTbody) {
+                adminTbody.innerHTML = appData.finance.map((f, index) => `
+                    <tr class="hover:bg-gray-50">
+                        <td class="p-3">${f.date}</td>
+                        <td class="p-3">${f.content}</td>
+                        <td class="p-3">${f.type}</td>
+                        <td class="p-3 text-right font-bold">${f.amount.toLocaleString('vi-VN')} VNĐ</td>
+                        <td class="p-3 text-center"><button onclick="deleteFinance(${index})" class="text-red-600 hover:text-red-800"><i class="fa-solid fa-trash"></i></button></td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function renderHouseholds(filter = '') {
+            const tbody = document.getElementById('household-table');
+            const adminTbody = document.getElementById('admin-household-table');
+
+            const filtered = appData.households.filter(h => h.name.toLowerCase().includes(filter.toLowerCase()));
+
+            tbody.innerHTML = filtered.map((h, index) => `
+                <tr class="hover:bg-gray-50">
+                    <td class="p-3">${index + 1}</td>
+                    <td class="p-3 font-semibold text-gray-800">${h.name}</td>
+                    <td class="p-3"><span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-xs font-bold">${h.members} nhân khẩu</span></td>
+                    <td class="p-3 text-gray-600">${h.oldVillage}</td>
+                    <td class="p-3 font-medium text-gray-700">${h.phone}</td>
+                    <td class="p-3 text-center"><button onclick="alert('Chi tiết hộ khẩu: ${h.name}\\nSố nhân khẩu: ${h.members}\\nXóm cũ: ${h.oldVillage}\\nSĐT: ${h.phone}')" class="text-primary hover:underline font-semibold text-xs">Xem</button></td>
+                </tr>
+            `).join('');
+
+            if(adminTbody) {
+                adminTbody.innerHTML = filtered.map((h, index) => `
+                    <tr class="hover:bg-gray-50">
+                        <td class="p-3 font-semibold">${h.name}</td>
+                        <td class="p-3">${h.members} người</td>
+                        <td class="p-3">${h.oldVillage}</td>
+                        <td class="p-3">${h.phone}</td>
+                        <td class="p-3 text-center">
+                            <button onclick="deleteHousehold(${h.id})" class="text-red-600 hover:text-red-800 p-1"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function renderFeedbacks() {
+            const list = document.getElementById('feedback-list');
+            list.innerHTML = appData.feedbacks.map(f => `
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="font-bold text-gray-800 text-sm">${f.name} <span class="text-xs text-gray-500 font-normal">(${f.phone})</span></span>
+                        <span class="text-xs text-gray-500">${f.date}</span>
+                    </div>
+                    <p class="text-gray-700 text-sm">${f.content}</p>
+                </div>
+            `).join('');
+
+            const adminList = document.getElementById('admin-feedback-list');
+            if(adminList) {
+                adminList.innerHTML = appData.feedbacks.map((f, i) => `
+                    <div class="bg-white p-4 rounded-lg border shadow-sm flex justify-between items-start">
+                        <div>
+                            <h4 class="font-bold text-gray-800">${f.name} - <span class="text-sm font-normal text-gray-600">${f.phone}</span></h4>
+                            <p class="text-sm text-gray-700 mt-1">${f.content}</p>
+                            <span class="text-xs text-gray-400 mt-2 inline-block">Ngày gửi: ${f.date}</span>
+                        </div>
+                        <button onclick="deleteFeedback(${i})" class="text-red-600 hover:text-red-800 text-sm"><i class="fa-solid fa-check"></i> Đã duyệt</button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Search household listener
+        document.getElementById('search-ho').addEventListener('input', (e) => {
+            renderHouseholds(e.target.value);
+        });
+
+        // Submit feedback
+        function submitFeedback(e) {
+            e.preventDefault();
+            const name = document.getElementById('fb-name').value;
+            const phone = document.getElementById('fb-phone').value;
+            const content = document.getElementById('fb-content').value;
+
+            appData.feedbacks.unshift({
+                name,
+                phone,
+                content,
+                date: new Date().toLocaleDateString('vi-VN')
+            });
+
+            document.getElementById('feedback-form').reset();
+            renderFeedbacks();
+            alert('Ý kiến phản ánh của bạn đã được gửi thành công đến Ban quản lý xóm!');
+        }
+
+        // Admin Auth & Modals
+        function openAdminModal() {
+            document.getElementById('admin-modal').classList.remove('hidden');
+        }
+        function closeAdminModal() {
+            document.getElementById('admin-modal').classList.add('hidden');
+        }
+        function handleLogin(e) {
+            e.preventDefault();
+            const u = document.getElementById('admin-user').value;
+            const p = document.getElementById('admin-pass').value;
+            if(u === 'admin' && p === '123456') {
+                closeAdminModal();
+                document.getElementById('dashboard-modal').classList.remove('hidden');
+                renderAll();
+            } else {
+                alert('Sai tài khoản hoặc mật khẩu! Sử dụng admin / 123456');
+            }
+        }
+        function closeDashboard() {
+            document.getElementById('dashboard-modal').classList.add('hidden');
+            renderAll();
+        }
+
+        // Dashboard Tabs switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.dashboard-tab').forEach(el => el.classList.add('hidden'));
+            document.getElementById('tab-' + tabName).classList.remove('hidden');
+
+            ['ho-khau', 'tin-tuc', 'thu-chi', 'phan-anh'].forEach(t => {
+                const btn = document.getElementById('tab-btn-' + t);
+                if(t === tabName) {
+                    btn.className = "w-full text-left px-4 py-3 rounded-lg bg-primary text-white font-semibold transition flex items-center space-x-3";
+                } else {
+                    btn.className = "w-full text-left px-4 py-3 rounded-lg hover:bg-gray-800 transition flex items-center space-x-3";
+                }
+            });
+        }
+
+        // Admin CRUD Actions
+        function openAddHouseholdModal() {
+            const name = prompt("Nhập tên chủ hộ:");
+            if(!name) return;
+            const members = parseInt(prompt("Nhập số nhân khẩu:", "4")) || 1;
+            const oldVillage = prompt("Nhập xóm cũ (Đại Hà / Lũng 1 / Lũng 2):", "Xóm Đại Hà");
+            const phone = prompt("Nhập số điện thoại:", "0900000000");
+
+            appData.households.push({ id: Date.now(), name, members, oldVillage, phone });
+            renderHouseholds();
+            alert('Đã thêm hộ khẩu thành công!');
+        }
+
+        function deleteHousehold(id) {
+            if(confirm('Xóa hộ khẩu này khỏi hệ thống?')) {
+                appData.households = appData.households.filter(h => h.id !== id);
+                renderHouseholds();
+            }
+        }
+
+        function openAddNewsModal() {
+            const title = prompt("Nhập tiêu đề tin tức:");
+            if(!title) return;
+            const desc = prompt("Nhập mô tả ngắn:");
+            appData.news.unshift({
+                id: Date.now(),
+                title,
+                date: new Date().toLocaleDateString('vi-VN'),
+                desc: desc || "Thông báo mới từ Ban quản lý xóm Quyết Thắng.",
+                img: "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=600&q=80"
+            });
+            renderNews();
+            alert('Đăng tin thành công!');
+        }
+
+        function deleteNews(id) {
+            if(confirm('Xóa tin tức này?')) {
+                appData.news = appData.news.filter(n => n.id !== id);
+                renderNews();
+            }
+        }
+
+        function openAddFinanceModal() {
+            const content = prompt("Nhập nội dung thu/chi:");
+            if(!content) return;
+            const type = prompt("Loại (Thu hoặc Chi):", "Thu");
+            const amount = parseFloat(prompt("Nhập số tiền (VNĐ):", "1000000")) || 0;
+            const note = prompt("Ghi chú:", "Đóng góp tự nguyện");
+
+            appData.finance.unshift({
+                date: new Date().toLocaleDateString('vi-VN'),
+                content,
+                type,
+                amount,
+                note
+            });
+            renderFinance();
+            alert('Đã thêm giao dịch quỹ xóm thành công!');
+        }
+
+        function deleteFinance(index) {
+            if(confirm('Xóa giao dịch này?')) {
+                appData.finance.splice(index, 1);
+                renderFinance();
+            }
+        }
+
+        function deleteFeedback(index) {
+            if(confirm('Đánh dấu đã xử lý và xóa phản ánh này?')) {
+                appData.feedbacks.splice(index, 1);
+                renderFeedbacks();
+            }
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            renderAll();
+        };
+    </script>
+</body>
+</html>
